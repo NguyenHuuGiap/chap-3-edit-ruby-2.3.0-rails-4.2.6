@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   		log_in user
       #neu check (=1) thi remember neu khong thi forget
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
-  		redirect_to user
+  		redirect_back_or user
   	else
   		flash.now[:danger] = 'Invalid email/password combination'
   		render 'new'

@@ -11,6 +11,10 @@ module SessionsHelper
     	cookies.permanent[:remember_token] = user.remember_token
 
 	end
+
+	def current_user?(user)
+		user == current_user
+	end
 #Return ra nguoi log in hien tai
 	def current_user
 		if (user_id = session[:user_id])
@@ -40,5 +44,16 @@ module SessionsHelper
 		forget(current_user)
 		session.delete(:user_id) #huy session theo id
 		@current_user = nil		#gan cho bien current_user = nil
+	end
+#Chuyển hướng đến vị trí lưu trữ (hoặc để mặc định).
+	def redirect_back_or(default)
+		redirect_to(session[:forwarding_url] || default)
+		session.delete(:forwarding_url)
+	end
+
+#truy cap vao srore
+	def store_location
+		session[:forwarding_url] = request.url if request.get?
+		
 	end
 end
